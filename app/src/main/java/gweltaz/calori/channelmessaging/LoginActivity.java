@@ -29,6 +29,8 @@ public class LoginActivity extends AppCompatActivity implements OnDownloadComple
         buttonvalider = (Button) findViewById(R.id.button_valider);
         identifiant = (EditText) findViewById(R.id.editTextIdentifiant);
         password = (EditText) findViewById(R.id.editTextPassword);
+        identifiant.setText("gcalo");
+        password.setText("gweltazcalori");
         buttonvalider.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
