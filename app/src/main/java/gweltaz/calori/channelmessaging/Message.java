@@ -13,6 +13,7 @@ public class Message
     private String date;
     private String imageUrl;
 
+
     public int getUserID() {
         return userID;
     }

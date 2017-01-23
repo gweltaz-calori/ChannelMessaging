@@ -40,7 +40,7 @@
 
             android:ems="10"
             android:id="@+id/messageinput"
-            android:layout_toLeftOf="@+id/sendmessage"
+            android:layout_toLeftOf="@+id/viewfriendsbutton"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:hint="Message" />
@@ -53,7 +53,7 @@
             android:layout_alignParentEnd="true"
             app:fabSize="mini"
             app:srcCompat="@android:drawable/ic_menu_send"
-            android:id="@+id/sendmessage"
+            android:id="@+id/viewfriendsbutton"
             />
 
     </RelativeLayout>

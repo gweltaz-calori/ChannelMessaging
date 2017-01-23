@@ -4,6 +4,7 @@ import java.lang.reflect.Type;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -18,6 +19,7 @@ import com.google.gson.Gson;
 import java.util.HashMap;
 
 public class ChannelListActivity extends AppCompatActivity implements OnDownloadCompleteListener {
+
 
     private ListView mListview;
     private String[] listItems = {"item 1", "item 2 ", "list", "android", "item 3",
@@ -43,6 +45,15 @@ public class ChannelListActivity extends AppCompatActivity implements OnDownload
                 Channel channel = (Channel) mListview.getItemAtPosition(position);
                 Intent intent = new Intent(getApplicationContext(), ChannelActivity.class);
                 intent.putExtra("channelid", channel.getChannelID());
+                startActivity(intent);
+            }
+        });
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.viewfriendsbutton);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ChannelListActivity.this,ListFriendsActivity.class);
                 startActivity(intent);
             }
         });
