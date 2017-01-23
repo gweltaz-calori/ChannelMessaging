@@ -7,12 +7,15 @@
     android:gravity="center_vertical">
 
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@mipmap/ic_launcher"
-        android:id="@+id/avatarmessage" />
 
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="46dp"
+        android:layout_height="46dp"
+        android:id="@+id/avatarmessage"
+
+        />
     <LinearLayout
         android:orientation="vertical"
         android:layout_marginLeft="@dimen/activity_vertical_margin"
