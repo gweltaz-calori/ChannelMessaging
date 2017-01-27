@@ -14,7 +14,7 @@ import java.util.UUID;
  */
 public class FriendsDB extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
     private static final String DATABASE_NAME = "MyDB.db";
     public static final String FRIENDS_TABLE_NAME = "Friends";
     public static final String USER_ID = "id";

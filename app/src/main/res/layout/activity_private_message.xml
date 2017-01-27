@@ -10,12 +10,12 @@
 
 
 
-            <ListView
+    <ListView
 
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/listviewmessages"
-                android:layout_above="@+id/relativeLayout" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/listviewprivatemessages"
+        android:layout_above="@+id/relativeLayout" />
 
 
 
@@ -39,12 +39,12 @@
             android:inputType="textPersonName"
 
             android:ems="10"
-            android:id="@+id/messageinput"
+            android:id="@+id/privatemessageinput"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:hint="Message"
-            android:layout_toLeftOf="@+id/viewfriendsbutton"
-            android:layout_toStartOf="@+id/viewfriendsbutton" />
+            android:layout_toStartOf="@+id/sendprivatemessage"
+            android:layout_toLeftOf="@+id/sendprivatemessage" />
 
         <android.support.design.widget.FloatingActionButton
             android:layout_width="50dp"
@@ -54,7 +54,7 @@
             android:layout_alignParentEnd="true"
             app:fabSize="mini"
             app:srcCompat="@android:drawable/ic_menu_send"
-            android:id="@+id/viewfriendsbutton"
+            android:id="@+id/sendprivatemessage"
             />
 
     </RelativeLayout>

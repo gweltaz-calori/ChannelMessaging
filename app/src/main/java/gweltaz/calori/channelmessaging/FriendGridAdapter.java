@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.File;
@@ -17,30 +16,26 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
- * Created by gwel7_000 on 21/01/2017.
+ * Created by calorig on 27/01/2017.
  */
-
-public class MessageListAdapter extends ArrayAdapter<Message>
+public class FriendGridAdapter extends ArrayAdapter<Friends>
 {
-
-
-    public MessageListAdapter(Context context, List<Message> messages ){
-        super(context, 0, messages);
+    public FriendGridAdapter(Context context, List<Friends> friends ){
+        super(context, 0, friends);
 
     }
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        Message message = getItem(position);
+        Friends friend = getItem(position);
 
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.row_message_layout, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.row_grid_layout, parent, false);
         }
 
-        TextView titlemessage = (TextView) convertView.findViewById(R.id.titlemessage);
-        TextView personmessage = (TextView) convertView.findViewById(R.id.personmessage);
-        CircleImageView avatar = (CircleImageView) convertView.findViewById(R.id.avatarmessage);
-        String chemin = message.getImageUrl().substring(message.getImageUrl().lastIndexOf('/'));
+        TextView nameperson = (TextView) convertView.findViewById(R.id.nameperson);
+        CircleImageView imageperson = (CircleImageView) convertView.findViewById(R.id.imageperson);
+        String chemin = friend.getImageUrl().substring(friend.getImageUrl().lastIndexOf('/'));
 
         String path = Environment.getExternalStorageDirectory()+chemin;
 
@@ -51,23 +46,21 @@ public class MessageListAdapter extends ArrayAdapter<Message>
             System.out.println("le fichier existe");
             Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
 
-            avatar.setImageBitmap(myBitmap);
+            imageperson.setImageBitmap(myBitmap);
         }
         else
         {
-            new DownloadImageTask(avatar,message.getImageUrl())
-                    .execute(message.getImageUrl());
+            new DownloadImageTask(imageperson,friend.getImageUrl())
+                    .execute(friend.getImageUrl());
             System.out.println("le fichier existe pas");
 
         }
 
 
-        titlemessage.setText(message.getMessage());
-        personmessage.setText(""+message.getUsername());
+        nameperson.setText(friend.getUsername());
+
 
 
         return convertView;
     }
-
-
 }

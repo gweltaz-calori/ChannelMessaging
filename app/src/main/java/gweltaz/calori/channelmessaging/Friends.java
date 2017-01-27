@@ -38,4 +38,13 @@ public class Friends
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
+    @Override
+    public String toString() {
+        return "Friends{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                '}';
+    }
 }

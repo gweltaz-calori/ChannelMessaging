@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,11 +29,13 @@ public class UserDatasource
     public void close() {
         dbHelper.close();
     }
-    public Friends createFriend(String url,int id,String username) {
+    public Friends createFriend(String url,int id,String username)
+    {
+
         ContentValues values = new ContentValues();
         values.put(FriendsDB.USER_ID, id);
         values.put(FriendsDB.USER_URL, url);
-        values.put(FriendsDB.USER_URL, username);
+        values.put(FriendsDB.USERNAME, username);
         database.insert(FriendsDB.FRIENDS_TABLE_NAME, null,
                 values);
         Cursor cursor = database.query(FriendsDB.FRIENDS_TABLE_NAME,
@@ -44,10 +48,32 @@ public class UserDatasource
     }
     public List<Friends> all()
     {
+        List<Friends> friends = new ArrayList<>();
+        Cursor cursor = database.query(FriendsDB.FRIENDS_TABLE_NAME,
+                allColumns, null, null,
+                null, null, null);
+        cursor.moveToFirst();
+        while(!cursor.isAfterLast())
+        {
+            Friends f = cursorToFriend(cursor);
+            friends.add(f);
+            cursor.moveToNext();
 
+        }
+        cursor.close();
+        return friends;
     }
     private Friends cursorToFriend(Cursor cursor) {
         Friends friend = new Friends(cursor.getString(2),cursor.getInt(0),cursor.getString(1));
         return friend;
+    }
+
+    @Override
+    public String toString() {
+        return "UserDatasource{" +
+                "database=" + database +
+                ", dbHelper=" + dbHelper +
+                ", allColumns=" + Arrays.toString(allColumns) +
+                '}';
     }
 }

@@ -1,14 +1,23 @@
 package gweltaz.calori.channelmessaging;
 
-import java.util.Date;
-
 /**
- * Created by gwel7_000 on 21/01/2017.
+ * Created by calorig on 27/01/2017.
  */
-
-public class Message
+public class PrivateMessage
 {
     private int userID;
+
+
+    public String getEverRead() {
+        return everRead;
+    }
+
+    public void setEverRead(String everRead) {
+        this.everRead = everRead;
+    }
+
+    private String everRead;
+    private int sendbyme;
     private String message;
     private String date;
     private String imageUrl;
@@ -17,7 +26,13 @@ public class Message
     public String getUsername() {
         return username;
     }
+    public int getSendbyme() {
+        return sendbyme;
+    }
 
+    public void setSendbyme(int sendbyme) {
+        this.sendbyme = sendbyme;
+    }
     public void setUsername(String username) {
         this.username = username;
     }
@@ -54,15 +69,17 @@ public class Message
         this.imageUrl = imageUrl;
     }
 
-    public Message(int userID, String message, String date, String imageUrl,String username) {
+    public PrivateMessage(int userID, String message, String date, String imageUrl,String username,String everRead,int sendByMe) {
         this.userID = userID;
         this.message = message;
         this.date = date;
         this.imageUrl = imageUrl;
         this.username = username;
+        this.everRead= everRead;
+        this.sendbyme = sendByMe;
     }
 
-    public Message() {
+    public PrivateMessage() {
     }
 
     @Override
@@ -81,17 +98,20 @@ public class Message
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Message message1 = (Message) o;
+        PrivateMessage that = (PrivateMessage) o;
 
-        if (userID != message1.userID) return false;
-        if (message != null ? !message.equals(message1.message) : message1.message != null)
+        if (userID != that.userID) return false;
+        if (sendbyme != that.sendbyme) return false;
+        if (everRead != null ? !everRead.equals(that.everRead) : that.everRead != null)
             return false;
-        if (date != null ? !date.equals(message1.date) : message1.date != null) return false;
-        if (imageUrl != null ? !imageUrl.equals(message1.imageUrl) : message1.imageUrl != null)
+        if (message != null ? !message.equals(that.message) : that.message != null) return false;
+        if (date != null ? !date.equals(that.date) : that.date != null) return false;
+        if (imageUrl != null ? !imageUrl.equals(that.imageUrl) : that.imageUrl != null)
             return false;
-        return username != null ? username.equals(message1.username) : message1.username == null;
+        return username != null ? username.equals(that.username) : that.username == null;
 
     }
 
 
 }
+

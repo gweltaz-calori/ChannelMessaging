@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.File;
@@ -20,18 +19,18 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by gwel7_000 on 21/01/2017.
  */
 
-public class MessageListAdapter extends ArrayAdapter<Message>
+public class PrivateMessageListAdapter extends ArrayAdapter<PrivateMessage>
 {
 
 
-    public MessageListAdapter(Context context, List<Message> messages ){
+    public PrivateMessageListAdapter(Context context, List<PrivateMessage> messages ){
         super(context, 0, messages);
 
     }
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        Message message = getItem(position);
+        PrivateMessage message = getItem(position);
 
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.row_message_layout, parent, false);

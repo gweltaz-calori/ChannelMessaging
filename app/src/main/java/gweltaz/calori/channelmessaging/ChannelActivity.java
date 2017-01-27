@@ -12,19 +12,23 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class ChannelActivity extends AppCompatActivity implements OnDownloadCompleteListener {
     private Handler h;
     private int delay = 1000;
     private int channelId;
     private ListView mListview;
+    private List<Message> messages = new ArrayList<>();
     private FloatingActionButton send;
     EditText input;
 
@@ -81,9 +85,21 @@ public class ChannelActivity extends AppCompatActivity implements OnDownloadComp
                     public void onClick(DialogInterface dialog, int id) {
 
                         UserDatasource userDatasource = new UserDatasource(ChannelActivity.this);
+                        userDatasource.open();
+                        System.out.println(userDatasource.toString());
                         Message m = (Message) mListview.getItemAtPosition(position);
+                        SharedPreferences settings = getSharedPreferences(LoginActivity.PREFS_NAME, 0);
 
-                        userDatasource.createFriend(m.getImageUrl(),m.getUserID(),"toto");
+                        if(!m.getUsername().equals(settings.getString("username", "")))
+                        {
+                            Friends f = userDatasource.createFriend(m.getImageUrl(),m.getUserID(),m.getUsername());
+                        }
+                        else
+                        {
+                            Toast.makeText(getApplicationContext(),"Impossible de vous ajouter",Toast.LENGTH_SHORT).show();
+                        }
+
+
                     }
                 });
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -104,7 +120,17 @@ public class ChannelActivity extends AppCompatActivity implements OnDownloadComp
 
         Gson gson = new Gson();
         Messages container = gson.fromJson(content, Messages.class);
-        mListview.setAdapter(new MessageListAdapter(getApplicationContext(), container.getMessages()));
+
+
+        if(!messages.equals(container.getMessages()))
+        {
+            mListview.setAdapter(new MessageListAdapter(getApplicationContext(), container.getMessages()));
+            messages = container.getMessages();
+
+        }
+
+
+
     }
 
 

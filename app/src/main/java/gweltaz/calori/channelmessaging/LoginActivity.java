@@ -61,7 +61,7 @@ public class LoginActivity extends AppCompatActivity implements OnDownloadComple
                     getSharedPreferences(PREFS_NAME, 0);
             SharedPreferences.Editor editor = settings.edit();
             editor.putString("accesstoken", connect.getAccesstoken());
-
+            editor.putString("username", identifiant.getText().toString());
             editor.commit();
             Toast.makeText(getApplicationContext(),"Connecté",Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(getApplicationContext(),ChannelListActivity.class);
