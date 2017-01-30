@@ -12,6 +12,7 @@ import android.widget.ListView;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -31,9 +32,9 @@ public class PrivateMessageActivity extends AppCompatActivity implements OnDownl
         mListview = (ListView) findViewById(R.id.listviewprivatemessages);
 
         h = new Handler();
-        h.postDelayed(new Runnable() {
+        h.post(new Runnable() {
             public void run() {
-                System.out.println(userid);
+
                 HashMap<String, String> map = new HashMap<String, String>();
                 SharedPreferences settings = getSharedPreferences(LoginActivity.PREFS_NAME, 0);
                 map.put("accesstoken", settings.getString("accesstoken", ""));
@@ -46,26 +47,38 @@ public class PrivateMessageActivity extends AppCompatActivity implements OnDownl
                 downloader.execute();
                 h.postDelayed(this, delay);
             }
-        }, delay);
+        });
         send = (FloatingActionButton) findViewById(R.id.sendprivatemessage);
         input = (EditText) findViewById(R.id.privatemessageinput);
 
         send.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-
+            public void onClick(View v)
+            {
+                HashMap<String, String> map = new HashMap<String, String>();
+                SharedPreferences settings = getSharedPreferences(LoginActivity.PREFS_NAME, 0);
+                map.put("accesstoken", settings.getString("accesstoken", ""));
+                map.put("userid", Integer.toString(userid));
+                map.put("message", input.getText().toString());
+                Downloader downloader = new Downloader();
+                downloader.setMap(map);
+                downloader.setUrl("http://www.raphaelbischof.fr/messaging/?function=sendmessage");
+                downloader.execute();
+                input.setText("");
             }
         });
     }
 
     @Override
     public void onDownloadComplete(String content) {
+
         Gson gson = new Gson();
         PrivateMesssageContainer container = gson.fromJson(content, PrivateMesssageContainer.class);
 
-
+        Collections.reverse(container.getMessages());
         if(!messages.equals(container.getMessages()))
         {
+
             mListview.setAdapter(new PrivateMessageListAdapter(getApplicationContext(), container.getMessages()));
             messages = container.getMessages();
 

@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ChannelListActivity" />
-        <activity android:name=".ChannelActivity" />
+        <activity android:name=".activity.ChannelActivity" />
         <activity android:name=".ListFriendsActivity" />
         <!--
  ATTENTION: This was auto-generated to add Google Play services to your project for

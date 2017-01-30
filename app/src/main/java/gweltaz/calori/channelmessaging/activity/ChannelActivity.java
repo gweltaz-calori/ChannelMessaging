@@ -1,4 +1,4 @@
-package gweltaz.calori.channelmessaging;
+package gweltaz.calori.channelmessaging.activity;
 
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -20,8 +20,19 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+
+import gweltaz.calori.channelmessaging.Downloader;
+import gweltaz.calori.channelmessaging.Friends;
+import gweltaz.calori.channelmessaging.LoginActivity;
+import gweltaz.calori.channelmessaging.Message;
+import gweltaz.calori.channelmessaging.MessageListAdapter;
+import gweltaz.calori.channelmessaging.Messages;
+import gweltaz.calori.channelmessaging.OnDownloadCompleteListener;
+import gweltaz.calori.channelmessaging.R;
+import gweltaz.calori.channelmessaging.UserDatasource;
 
 public class ChannelActivity extends AppCompatActivity implements OnDownloadCompleteListener {
     private Handler h;
@@ -121,9 +132,10 @@ public class ChannelActivity extends AppCompatActivity implements OnDownloadComp
         Gson gson = new Gson();
         Messages container = gson.fromJson(content, Messages.class);
 
-
+        Collections.reverse(container.getMessages());
         if(!messages.equals(container.getMessages()))
         {
+
             mListview.setAdapter(new MessageListAdapter(getApplicationContext(), container.getMessages()));
             messages = container.getMessages();
 

@@ -18,6 +18,8 @@ import com.google.gson.Gson;
 
 import java.util.HashMap;
 
+import gweltaz.calori.channelmessaging.activity.ChannelActivity;
+
 public class ChannelListActivity extends AppCompatActivity implements OnDownloadCompleteListener {
 
 

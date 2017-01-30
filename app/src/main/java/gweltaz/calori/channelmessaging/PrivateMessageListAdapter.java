@@ -1,8 +1,11 @@
 package gweltaz.calori.channelmessaging;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,16 +25,27 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class PrivateMessageListAdapter extends ArrayAdapter<PrivateMessage>
 {
 
-
-    public PrivateMessageListAdapter(Context context, List<PrivateMessage> messages ){
+    private List<PrivateMessage> messages;
+    private Context context;
+    public PrivateMessageListAdapter(Context context, List<PrivateMessage> messages )
+    {
         super(context, 0, messages);
-
+        this.messages = messages;
+        this.context = context;
+        System.out.println("Constructor -------------------------------------------");
+        for(PrivateMessage message : messages)
+        {
+            System.out.println(message.toString()+"\n");
+        }
+        System.out.println(" -------------------------------------------");
     }
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
         PrivateMessage message = getItem(position);
-
+        System.out.println("Current item -------------------------------------------");
+        System.out.println(message.toString()+"\n");
+        System.out.println(" -------------------------------------------");
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.row_message_layout, parent, false);
         }
@@ -44,10 +58,10 @@ public class PrivateMessageListAdapter extends ArrayAdapter<PrivateMessage>
         String path = Environment.getExternalStorageDirectory()+chemin;
 
         File imgFile = new File(path);
-        System.out.println(imgFile.getPath());
+
         if(imgFile.exists())
         {
-            System.out.println("le fichier existe");
+
             Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
 
             avatar.setImageBitmap(myBitmap);
@@ -56,10 +70,15 @@ public class PrivateMessageListAdapter extends ArrayAdapter<PrivateMessage>
         {
             new DownloadImageTask(avatar,message.getImageUrl())
                     .execute(message.getImageUrl());
-            System.out.println("le fichier existe pas");
+
 
         }
 
+        if(message.getSendbyme()==0 && message.getEverRead().equals("0"))
+        {
+            titlemessage.setTypeface(Typeface.DEFAULT_BOLD);
+            titlemessage.setTextColor(Color.parseColor("#000000"));
+        }
 
         titlemessage.setText(message.getMessage());
         personmessage.setText(""+message.getUsername());

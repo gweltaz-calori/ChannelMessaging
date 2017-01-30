@@ -87,6 +87,7 @@ public class PrivateMessage
         return "Message{" +
                 "userID=" + userID +
                 ", message='" + message + '\'' +
+                ", everRead='" + everRead + '\'' +
                 ", date=" + date +
                 ", imageUrl='" + imageUrl + '\'' +
                 ", username='" + username + '\'' +
@@ -102,8 +103,6 @@ public class PrivateMessage
 
         if (userID != that.userID) return false;
         if (sendbyme != that.sendbyme) return false;
-        if (everRead != null ? !everRead.equals(that.everRead) : that.everRead != null)
-            return false;
         if (message != null ? !message.equals(that.message) : that.message != null) return false;
         if (date != null ? !date.equals(that.date) : that.date != null) return false;
         if (imageUrl != null ? !imageUrl.equals(that.imageUrl) : that.imageUrl != null)
