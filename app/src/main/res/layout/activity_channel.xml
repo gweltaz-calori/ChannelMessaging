@@ -43,20 +43,38 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:hint="Message"
-            android:layout_toLeftOf="@+id/viewfriendsbutton"
-            android:layout_toStartOf="@+id/viewfriendsbutton" />
+            android:layout_toLeftOf="@+id/rightbuttons"
+             />
 
-        <android.support.design.widget.FloatingActionButton
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:padding="@dimen/activity_vertical_margin"
-            android:clickable="true"
-            android:layout_alignParentEnd="true"
-            app:fabSize="mini"
-            app:srcCompat="@android:drawable/ic_menu_send"
-            android:id="@+id/viewfriendsbutton"
-            />
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_alignParentRight="true"
+            android:id="@+id/rightbuttons"
+
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.FloatingActionButton
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:padding="@dimen/activity_vertical_margin"
+                android:clickable="true"
+                android:layout_marginRight="10px"
+                app:fabSize="mini"
+                app:srcCompat="@android:drawable/ic_menu_send"
+                android:id="@+id/viewfriendsbutton"
+                />
+            <android.support.design.widget.FloatingActionButton
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:padding="@dimen/activity_vertical_margin"
+                android:clickable="true"
+
+                app:fabSize="mini"
+                app:srcCompat="@android:drawable/ic_menu_camera"
+                android:id="@+id/sendphoto"
+                />
+        </LinearLayout>
     </RelativeLayout>
 
 
