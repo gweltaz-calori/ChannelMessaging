@@ -1,8 +1,13 @@
 package gweltaz.calori.channelmessaging;
 
+import android.Manifest;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -18,6 +23,7 @@ import java.util.HashMap;
 
 public class LoginActivity extends AppCompatActivity implements OnDownloadCompleteListener {
 
+    private final int MY_PERMISSIONS_REQUEST_WRITE_STORAGE = 1;
     public static final String PREFS_NAME = "MyPrefsFile";
     private Button buttonvalider;
     private EditText identifiant,password;
@@ -25,7 +31,7 @@ public class LoginActivity extends AppCompatActivity implements OnDownloadComple
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        askPermission();
         buttonvalider = (Button) findViewById(R.id.button_valider);
         identifiant = (EditText) findViewById(R.id.editTextIdentifiant);
         password = (EditText) findViewById(R.id.editTextPassword);
@@ -83,6 +89,43 @@ public class LoginActivity extends AppCompatActivity implements OnDownloadComple
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+    public void askPermission()
+    {
+
+
+
+        ActivityCompat.requestPermissions(LoginActivity.this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_WRITE_STORAGE);
+
+
+
+
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_WRITE_STORAGE: {
+
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+
+
+
+                } else
+                {
+
+                    finish();
+
+                }
+                return;
+            }
+
+
         }
     }
 }

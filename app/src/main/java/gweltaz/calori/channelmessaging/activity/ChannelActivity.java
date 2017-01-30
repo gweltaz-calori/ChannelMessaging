@@ -31,6 +31,7 @@ import gweltaz.calori.channelmessaging.Message;
 import gweltaz.calori.channelmessaging.MessageListAdapter;
 import gweltaz.calori.channelmessaging.Messages;
 import gweltaz.calori.channelmessaging.OnDownloadCompleteListener;
+import gweltaz.calori.channelmessaging.PrivateMessageListAdapter;
 import gweltaz.calori.channelmessaging.R;
 import gweltaz.calori.channelmessaging.UserDatasource;
 
@@ -135,8 +136,15 @@ public class ChannelActivity extends AppCompatActivity implements OnDownloadComp
         Collections.reverse(container.getMessages());
         if(!messages.equals(container.getMessages()))
         {
-
-            mListview.setAdapter(new MessageListAdapter(getApplicationContext(), container.getMessages()));
+            final MessageListAdapter myListAdapter =new MessageListAdapter(getApplicationContext(), container.getMessages());
+            mListview.setAdapter(myListAdapter);
+            mListview.post(new Runnable() {
+                @Override
+                public void run() {
+                    // Select the last row so it will scroll into view...
+                    mListview.setSelection(myListAdapter.getCount() - 1);
+                }
+            });
             messages = container.getMessages();
 
         }
