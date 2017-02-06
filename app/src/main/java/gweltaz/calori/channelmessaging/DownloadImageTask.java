@@ -2,6 +2,7 @@ package gweltaz.calori.channelmessaging;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
@@ -25,6 +26,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 
 public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+    ImageView imageView;
     CircleImageView bmImage;
     String imageurl;
 
@@ -32,7 +34,10 @@ public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         this.bmImage = bmImage;
         this.imageurl = imageurl;
     }
-
+    public DownloadImageTask(ImageView bmImage,String imageurl) {
+        this.imageView = bmImage;
+        this.imageurl = imageurl;
+    }
     protected Bitmap doInBackground(String... urls) {
         Bitmap mIcon11 = null;
         String chemin = imageurl.substring(imageurl.lastIndexOf('/'));
@@ -66,8 +71,15 @@ write on the fly in the file.*/
 
     protected void onPostExecute(Bitmap result)
     {
+        if(bmImage != null)
+        {
+            bmImage.setImageBitmap(result);
+        }
+        else
+        {
+            imageView.setImageBitmap(result);
+        }
 
-        bmImage.setImageBitmap(result);
 
 
 

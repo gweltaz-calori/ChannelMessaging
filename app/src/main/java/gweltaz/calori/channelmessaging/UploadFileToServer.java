@@ -26,6 +26,7 @@ import java.util.List;
  */
 public class UploadFileToServer extends AsyncTask<String, Integer, String> {
 
+
     private ProgressDialog mDialog;
     private static final String URL = "http://www.raphaelbischof.fr/messaging/upload.php";
     private String mFilePath = "";
@@ -46,6 +47,7 @@ public class UploadFileToServer extends AsyncTask<String, Integer, String> {
         mFilePath = filePath;
         mParameters = values;
         this.mOnUploadFileListener = onUploadFileListener;
+
     }
 
     @Override
@@ -137,6 +139,7 @@ public class UploadFileToServer extends AsyncTask<String, Integer, String> {
             inputStream.close();
             outputStream.flush();
             outputStream.close();
+            System.out.println("Result : "+result);
             return result;
         } catch (IOException e) {
             currentException = e;
@@ -152,6 +155,7 @@ public class UploadFileToServer extends AsyncTask<String, Integer, String> {
 
     @Override
     protected void onPostExecute(String result) {
+
         mDialog.dismiss();
         if (result == null){
             if (currentException!= null){

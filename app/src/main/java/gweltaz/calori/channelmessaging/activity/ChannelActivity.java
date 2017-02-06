@@ -13,6 +13,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,9 +23,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
+
 import com.google.gson.Gson;
 
 import org.apache.http.NameValuePair;
@@ -143,13 +142,19 @@ public class ChannelActivity extends AppCompatActivity implements OnDownloadComp
         sendphoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE); //Création de l’appel
-                File f = new File(Environment.getExternalStorageDirectory()+"/Chat/images/test.jpg");
-                f.mkdirs();
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f)); //Emplacement de l’image stockée
 
+                File test = new File(Environment.getExternalStorageDirectory()+"/img.jpg");
+                try {
+                    test.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                // Android a depuis Android Nougat besoin d'un provider pour donner l'accès à un répertoire pour une autre app, cf : http://stackoverflow.com/questions/38200282/android-os-fileuriexposedexception-file-storage-emulated-0-test-txt-exposed
+                Uri uri = FileProvider.getUriForFile(ChannelActivity.this, ChannelActivity.this.getApplicationContext().getPackageName() + ".provider", test);
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE); //Création de l’appelà l’application appareil photo pour récupérer une image
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, uri); //Emplacement de l’image stockée
                 startActivityForResult(intent, PICTURE_REQUEST_CODE);
-
             }
         });
 
@@ -194,7 +199,14 @@ public class ChannelActivity extends AppCompatActivity implements OnDownloadComp
 
                 liste.add(new BasicNameValuePair("accesstoken", settings.getString("accesstoken", "")));
                 liste.add(new BasicNameValuePair("channelid",Integer.toString(channelId)));
-                new UploadFileToServer(getApplicationContext(), data.getData().getPath(), liste, new UploadFileToServer.OnUploadFileListener() {
+                File test = new File(Environment.getExternalStorageDirectory()+"/img.jpg");
+
+                try {
+                    resizeFile(test,getApplicationContext());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                new UploadFileToServer(ChannelActivity.this, test.getPath(), liste, new UploadFileToServer.OnUploadFileListener() {
                     @Override
                     public void onResponse(String result)
                     {
@@ -203,10 +215,10 @@ public class ChannelActivity extends AppCompatActivity implements OnDownloadComp
 
                     @Override
                     public void onFailed(IOException error) {
-
+                        System.out.println(error);
                     }
-                });
-                Toast.makeText(getApplicationContext(),"bravo",Toast.LENGTH_SHORT).show();
+                }).execute();
+
         }
     }
     //decodes image and scales it to reduce memory consumption

@@ -86,4 +86,11 @@
             android:id="@+id/button_valider"
             android:layout_gravity="right" />
     </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Map APi"
+        android:id="@+id/mapsButton"
+        android:layout_gravity="center_horizontal" />
 </LinearLayout>

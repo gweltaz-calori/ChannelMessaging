@@ -32,40 +32,95 @@ public class MessageListAdapter extends ArrayAdapter<Message>
     public View getView(int position, View convertView, ViewGroup parent) {
 
         Message message = getItem(position);
+        System.out.println("message"+message);
 
-        if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.row_message_layout, parent, false);
-        }
-
-        TextView titlemessage = (TextView) convertView.findViewById(R.id.titlemessage);
-        TextView personmessage = (TextView) convertView.findViewById(R.id.personmessage);
-        CircleImageView avatar = (CircleImageView) convertView.findViewById(R.id.avatarmessage);
-        String chemin = message.getImageUrl().substring(message.getImageUrl().lastIndexOf('/'));
-
-        String path = Environment.getExternalStorageDirectory()+chemin;
-
-        File imgFile = new File(path);
-        System.out.println(imgFile.getPath());
-        if(imgFile.exists())
+        if(message.getMessageImageUrl().equals(""))
         {
-            System.out.println("le fichier existe");
-            Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.row_message_layout, parent, false);
 
-            avatar.setImageBitmap(myBitmap);
+            TextView titlemessage = (TextView) convertView.findViewById(R.id.titlemessage);
+            TextView personmessage = (TextView) convertView.findViewById(R.id.personmessage);
+            CircleImageView avatar = (CircleImageView) convertView.findViewById(R.id.avatarmessage);
+            String chemin = message.getImageUrl().substring(message.getImageUrl().lastIndexOf('/'));
+
+            String path = Environment.getExternalStorageDirectory()+chemin;
+
+            File imgFile = new File(path);
+
+            if(imgFile.exists())
+            {
+                System.out.println("le fichier existe");
+                Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+
+                avatar.setImageBitmap(myBitmap);
+            }
+            else
+            {
+                new DownloadImageTask(avatar,message.getImageUrl())
+                        .execute(message.getImageUrl());
+                System.out.println("le fichier existe pas");
+
+            }
+
+
+                    titlemessage.setText(message.getMessage());
+            personmessage.setText(""+message.getUsername());
         }
         else
         {
-            new DownloadImageTask(avatar,message.getImageUrl())
-                    .execute(message.getImageUrl());
-            System.out.println("le fichier existe pas");
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.row_message_picture_layout, parent, false);
+
+
+            ImageView picturemessage = (ImageView) convertView.findViewById(R.id.picturemessage);
+            TextView personmessage = (TextView) convertView.findViewById(R.id.personmessage);
+            CircleImageView avatar = (CircleImageView) convertView.findViewById(R.id.avatarmessage);
+
+            String cheminAvatar = message.getImageUrl().substring(message.getImageUrl().lastIndexOf('/'));
+            String pathAvatar = Environment.getExternalStorageDirectory()+cheminAvatar;
+            File imgFile = new File(pathAvatar);
+
+            String cheminPicture = message.getMessageImageUrl().substring(message.getMessageImageUrl().lastIndexOf('/'));
+            String pathPicture = Environment.getExternalStorageDirectory()+cheminPicture;
+            File imgFilePicture = new File(pathPicture);
+
+            if(imgFile.exists())
+            {
+                System.out.println("le fichier existe");
+                Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                avatar.setImageBitmap(myBitmap);
+
+
+            }
+            else
+            {
+                new DownloadImageTask(avatar,message.getImageUrl())
+                        .execute(message.getImageUrl());
+
+
+            }
+            if(imgFilePicture.exists())
+            {
+
+
+                Bitmap myBitmapPicture = BitmapFactory.decodeFile(imgFilePicture.getAbsolutePath());
+                picturemessage.setImageBitmap(myBitmapPicture);
+            }
+            else
+            {
+
+                new DownloadImageTask(picturemessage,message.getMessageImageUrl())
+                        .execute(message.getMessageImageUrl());
+                System.out.println("le fichier existe pas");
+
+            }
+
+
+            personmessage.setText(""+message.getUsername());
+
+
+
 
         }
-
-
-        titlemessage.setText(message.getMessage());
-        personmessage.setText(""+message.getUsername());
-
-
         return convertView;
     }
 

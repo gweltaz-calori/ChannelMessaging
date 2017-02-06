@@ -9,7 +9,7 @@
         android:id="@+id/imageperson"
         android:layout_width="96dp"
         android:layout_height="96dp"
-        android:src="@drawable/common_ic_googleplayservices"
+
 
         />
     <TextView

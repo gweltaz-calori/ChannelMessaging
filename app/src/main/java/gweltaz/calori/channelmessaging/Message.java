@@ -13,6 +13,15 @@ public class Message
     private String date;
     private String imageUrl;
     private String username;
+    private String messageImageUrl;
+
+    public String getMessageImageUrl() {
+        return messageImageUrl;
+    }
+
+    public void setMessageImageUrl(String messageImageUrl) {
+        this.messageImageUrl = messageImageUrl;
+    }
 
     public String getUsername() {
         return username;
@@ -54,12 +63,13 @@ public class Message
         this.imageUrl = imageUrl;
     }
 
-    public Message(int userID, String message, String date, String imageUrl,String username) {
+    public Message(int userID, String message, String date, String imageUrl,String username,String messageImageUrl) {
         this.userID = userID;
         this.message = message;
         this.date = date;
         this.imageUrl = imageUrl;
         this.username = username;
+        this.messageImageUrl = messageImageUrl;
     }
 
     public Message() {
@@ -73,6 +83,7 @@ public class Message
                 ", date=" + date +
                 ", imageUrl='" + imageUrl + '\'' +
                 ", username='" + username + '\'' +
+                ", messageimageurl='" + messageImageUrl + '\'' +
                 '}';
     }
 

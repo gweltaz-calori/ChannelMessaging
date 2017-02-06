@@ -24,8 +24,9 @@ import java.util.HashMap;
 public class LoginActivity extends AppCompatActivity implements OnDownloadCompleteListener {
 
     private final int MY_PERMISSIONS_REQUEST_WRITE_STORAGE = 1;
+
     public static final String PREFS_NAME = "MyPrefsFile";
-    private Button buttonvalider;
+    private Button buttonvalider,mapsButton;
     private EditText identifiant,password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +36,7 @@ public class LoginActivity extends AppCompatActivity implements OnDownloadComple
         buttonvalider = (Button) findViewById(R.id.button_valider);
         identifiant = (EditText) findViewById(R.id.editTextIdentifiant);
         password = (EditText) findViewById(R.id.editTextPassword);
+        mapsButton = (Button) findViewById(R.id.mapsButton);
         identifiant.setText("gcalo");
         password.setText("gweltazcalori");
         buttonvalider.setOnClickListener(new View.OnClickListener() {
@@ -50,6 +52,13 @@ public class LoginActivity extends AppCompatActivity implements OnDownloadComple
                 downloader.setOnDownloadCompleteListener(LoginActivity.this);
 
                 downloader.execute();
+            }
+        });
+        mapsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this,GPSActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -124,6 +133,7 @@ public class LoginActivity extends AppCompatActivity implements OnDownloadComple
                 }
                 return;
             }
+
 
 
         }
