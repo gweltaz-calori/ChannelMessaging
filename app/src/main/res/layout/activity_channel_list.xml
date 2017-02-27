@@ -7,23 +7,12 @@
 
     tools:context="gweltaz.calori.channelmessaging.ChannelListActivity">
 
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/listView"
+   <fragment
+       android:name="gweltaz.calori.channelmessaging.fragments.ChannelListFragment"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:id="@+id/listchannel_fragment"
+       tools:layout="@layout/fragment_channel_list">
 
-        android:layout_centerHorizontal="true" />
-    <android.support.design.widget.FloatingActionButton
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginBottom="@dimen/activity_horizontal_margin"
-        android:clickable="true"
-        app:fabSize="mini"
-        app:srcCompat="@android:drawable/ic_dialog_email"
-        android:id="@+id/viewfriendsbutton"
-
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+   </fragment>
 </RelativeLayout>
