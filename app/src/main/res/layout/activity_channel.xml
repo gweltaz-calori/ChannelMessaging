@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<fragment android:name="gweltaz.calori.channelmessaging.fragments.MessageFragment"
+<fragment
+    class="gweltaz.calori.channelmessaging.fragments.MessageFragment"
+    android:name="gweltaz.calori.channelmessaging.fragments.MessageFragment"
     android:layout_width="match_parent"
     android:id="@+id/message_fragment"
     android:layout_height="match_parent"

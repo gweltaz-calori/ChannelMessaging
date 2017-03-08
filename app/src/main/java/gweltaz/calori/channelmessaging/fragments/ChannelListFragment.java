@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -56,15 +57,7 @@ public class ChannelListFragment extends Fragment implements OnDownloadCompleteL
         View rootview = inflater.inflate(R.layout.fragment_channel_list, container, false);
         mListview = (ListView) rootview.findViewById(R.id.listView);
 
-        HashMap<String,String> map = new HashMap<String, String>();
-        SharedPreferences settings = getActivity().getSharedPreferences(LoginActivity.PREFS_NAME, 0);
-        map.put("accesstoken", settings.getString("accesstoken", ""));
-        Downloader downloader = new Downloader();
-        downloader.setMap(map);
-        downloader.setUrl("http://www.raphaelbischof.fr/messaging/?function=getchannels");
-        downloader.setOnDownloadCompleteListener(this);
 
-        downloader.execute();
         mListview.setOnItemClickListener((ChannelListActivity)getActivity());
 
         FloatingActionButton fab = (FloatingActionButton)rootview.findViewById(R.id.viewfriendsbutton);
@@ -78,11 +71,27 @@ public class ChannelListFragment extends Fragment implements OnDownloadCompleteL
         return rootview;
     }
 
-
     @Override
-    public void onDownloadComplete(String content) {
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        HashMap<String,String> map = new HashMap<String, String>();
+        SharedPreferences settings = getActivity().getSharedPreferences(LoginActivity.PREFS_NAME, 0);
+        map.put("accesstoken", settings.getString("accesstoken", ""));
+        Downloader downloader = new Downloader();
+        downloader.setMap(map);
+        downloader.setUrl("http://www.raphaelbischof.fr/messaging/?function=getchannels");
+        downloader.setOnDownloadCompleteListener(this);
+
+        downloader.execute();
+    }
+    @Override
+    public void onDownloadComplete(String content)
+    {
         Gson gson = new Gson();
         ChannelContainer container = gson.fromJson(content, ChannelContainer.class);
+
         mListview.setAdapter(new ListAdapter(getActivity().getApplicationContext(),container.getChannels()));
+
+
     }
 }

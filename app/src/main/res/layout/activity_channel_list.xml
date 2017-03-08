@@ -8,7 +8,7 @@
     tools:context="gweltaz.calori.channelmessaging.ChannelListActivity">
 
    <fragment
-       android:name="gweltaz.calori.channelmessaging.fragments.ChannelListFragment"
+       class="gweltaz.calori.channelmessaging.fragments.ChannelListFragment"
        android:layout_width="match_parent"
        android:layout_height="match_parent"
        android:id="@+id/listchannel_fragment"

@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
@@ -74,28 +75,52 @@ public class MessageFragment extends Fragment implements OnDownloadCompleteListe
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_message, container, false);
-        channelId = getActivity().getIntent().getIntExtra("channelid", 0);
+
+        channelId =  1;
+        System.out.println(channelId);
         mListview = (ListView) rootView.findViewById(R.id.listviewmessages);
         sendphoto =(FloatingActionButton) rootView.findViewById(R.id.sendphoto);
-        h = new Handler();
-        h.postDelayed(new Runnable() {
-            public void run() {
 
-                HashMap<String, String> map = new HashMap<String, String>();
-                SharedPreferences settings = getActivity().getSharedPreferences(LoginActivity.PREFS_NAME, 0);
-                map.put("accesstoken", settings.getString("accesstoken", ""));
-                map.put("channelid", Integer.toString(channelId));
-                Downloader downloader = new Downloader();
-                downloader.setMap(map);
-                downloader.setUrl("http://www.raphaelbischof.fr/messaging/?function=getmessages");
-                downloader.setOnDownloadCompleteListener(MessageFragment.this);
-
-                downloader.execute();
-                h.postDelayed(this, delay);
-            }
-        }, delay);
         send = (FloatingActionButton) rootView.findViewById(R.id.viewfriendsbutton);
         input = (EditText) rootView.findViewById(R.id.messageinput);
+
+
+
+        return rootView;
+    }
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+
+            h = new Handler();
+            h.postDelayed(new Runnable() {
+                public void run() {
+
+                    if(getActivity() !=null)
+                    {
+                        HashMap<String, String> map = new HashMap<String, String>();
+                        SharedPreferences settings = getActivity().getSharedPreferences(LoginActivity.PREFS_NAME, 0);
+
+                        map.put("accesstoken", settings.getString("accesstoken", ""));
+                        map.put("channelid", Integer.toString(channelId));
+                        Downloader downloader = new Downloader();
+                        downloader.setMap(map);
+                        downloader.setUrl("http://www.raphaelbischof.fr/messaging/?function=getmessages");
+                        downloader.setOnDownloadCompleteListener(MessageFragment.this);
+
+                        downloader.execute();
+                        h.postDelayed(this, delay);
+                    }
+
+                }
+            }, delay);
 
         send.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -167,13 +192,8 @@ public class MessageFragment extends Fragment implements OnDownloadCompleteListe
                 startActivityForResult(intent, PICTURE_REQUEST_CODE);
             }
         });
-        return rootView;
     }
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
-    }
     @Override
     public void onDownloadComplete(String content) {
 
@@ -291,5 +311,9 @@ public class MessageFragment extends Fragment implements OnDownloadCompleteListe
                 break;
         }
         return rotate;
+    }
+    public void changeChannelId(int id)
+    {
+        channelId = id;
     }
 }

@@ -5,6 +5,7 @@ import java.lang.reflect.Type;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -36,6 +37,7 @@ public class ChannelListActivity extends AppCompatActivity implements AdapterVie
             setContentView(R.layout.activity_channel_list);
         } else {
             setContentView(R.layout.channel_list_activuty_landscape);
+
         }
 
 
@@ -46,14 +48,16 @@ public class ChannelListActivity extends AppCompatActivity implements AdapterVie
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         MessageFragment messageFragment = (MessageFragment)getSupportFragmentManager().findFragmentById(R.id.message_fragment);
         ChannelListFragment channelListFragment = (ChannelListFragment)getSupportFragmentManager().findFragmentById(R.id.listchannel_fragment);
-        System.out.println("message fragment "+messageFragment.toString());
-        System.out.println("channelListFragment "+channelListFragment.toString());
+        Channel channel = (Channel) channelListFragment.mListview.getItemAtPosition(position);
         if(messageFragment == null|| !messageFragment.isInLayout()){
-            Channel channel = (Channel) channelListFragment.mListview.getItemAtPosition(position);
+
             Intent intent = new Intent(ChannelListActivity.this, ChannelActivity.class);
             intent.putExtra("channelid", channel.getChannelID());
             startActivity(intent);
-        } else {
+        } else
+        {
+
+            messageFragment.changeChannelId(channel.getChannelID());
 
         }
     }
