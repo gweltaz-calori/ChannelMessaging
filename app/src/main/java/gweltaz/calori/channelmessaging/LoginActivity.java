@@ -1,6 +1,7 @@
 package gweltaz.calori.channelmessaging;
 
 import android.Manifest;
+import android.animation.Animator;
 import android.app.ActionBar;
 import android.app.ActivityOptions;
 import android.content.Intent;
@@ -22,15 +23,19 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.dynamitechetan.flowinggradient.FlowingGradientClass;
 import com.google.gson.Gson;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.HashMap;
+import java.util.Random;
+
 import android.os.Handler;
 
 public class LoginActivity extends AppCompatActivity implements OnDownloadCompleteListener {
@@ -41,15 +46,21 @@ public class LoginActivity extends AppCompatActivity implements OnDownloadComple
     private Button buttonvalider,mapsButton;
     private EditText identifiant,password;
     private ImageView mIvLogo;
-    private TextView messageLogin,messageLoginToMove;
+    private TextView messageLogin,messageLoginToMove,randomTextview;
     private Handler mHandlerTada;
     private int mShortDelay;
     private AVLoadingIndicatorView avi;
+    private static final String[] explainStringArray = {
+            "Ah",
+            "Marc",
+            "Salut à tous les gamers"
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         askPermission();
+        randomTextview = (TextView) findViewById(R.id.messageRandom);
         buttonvalider = (Button) findViewById(R.id.button_valider);
         identifiant = (EditText) findViewById(R.id.editTextIdentifiant);
         password = (EditText) findViewById(R.id.editTextPassword);
@@ -60,6 +71,13 @@ public class LoginActivity extends AppCompatActivity implements OnDownloadComple
         identifiant.setText("gcalo");
         password.setText("gweltazcalori");
         avi =(AVLoadingIndicatorView) findViewById(R.id.avi);
+
+
+        FlowingGradientClass grad = new FlowingGradientClass();
+        grad.setBackgroundResource(R.drawable.translate)
+                .onLinearLayout((LinearLayout) findViewById(R.id.loginMainLayout))
+                .setTransitionDuration(4000)
+                .start();
         buttonvalider.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,6 +105,35 @@ public class LoginActivity extends AppCompatActivity implements OnDownloadComple
                 mHandlerTada.postDelayed(this, mShortDelay);
             }
         }, mShortDelay);
+        System.out.println(explainStringArray[new Random().nextInt(explainStringArray.length)]);
+
+        new Handler().postDelayed(new Runnable(){
+            public void run(){
+                YoYo.with(Techniques.SlideOutRight).duration(750).withListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        randomTextview.setText(explainStringArray[new Random().nextInt(explainStringArray.length)]);
+                        YoYo.with(Techniques.SlideInLeft).duration(750).playOn(randomTextview);
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+
+                    }
+                }).playOn(randomTextview);
+                mHandlerTada.postDelayed(this, 2000);
+            }
+        }, 2000);
 
     }
 
