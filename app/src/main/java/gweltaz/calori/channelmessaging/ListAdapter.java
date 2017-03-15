@@ -38,6 +38,8 @@ public class ListAdapter extends ArrayAdapter<Channel>
         channeltext.setText(channel.getName());
         nb.setText("Nombres d'utilisateurs connectés : "+channel.getConnectedusers());
         // Return the completed view to render on screen
+
+
         return convertView;
     }
 
