@@ -140,6 +140,7 @@ public class LoginActivity extends AppCompatActivity implements OnDownloadComple
     @Override
     public void onDownloadComplete(String content) {
 
+
         buttonvalider.setVisibility(View.VISIBLE);
         avi.hide();
         Gson gson = new Gson();

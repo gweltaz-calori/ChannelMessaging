@@ -1,67 +1,192 @@
 package gweltaz.calori.channelmessaging.fragments;
 
 
+import android.Manifest;
+import android.app.AlertDialog;
+import android.app.Dialog;
 
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.media.MediaPlayer;
+import android.media.MediaRecorder;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import gweltaz.calori.channelmessaging.LoginActivity;
 import gweltaz.calori.channelmessaging.R;
-
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SoundRecordDialog#newInstance} factory method to
- * create an instance of this fragment.
- *
- */
-public class SoundRecordDialog extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+import gweltaz.calori.channelmessaging.UploadFileToServer;
 
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SoundRecordDialog.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static SoundRecordDialog newInstance(String param1, String param2) {
-        SoundRecordDialog fragment = new SoundRecordDialog();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+public class SoundRecordDialog extends DialogFragment {
+
+    private static final String LOG_TAG = "AudioRecordTest";
+    private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
+    private static String mFileName = null;
+
+    private RecordButton mRecordButton = null;
+    private MediaRecorder mRecorder = null;
+
+
+    // Requesting permission to RECORD_AUDIO
+    private boolean permissionToRecordAccepted = false;
+    private String [] permissions = {Manifest.permission.RECORD_AUDIO};
+
+    private int channelId;
+
     public SoundRecordDialog() {
         // Required empty public constructor
+
     }
 
+
+
+
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    public Dialog onCreateDialog(Bundle savedInstanceState)
+    {
+        this.channelId = getArguments().getInt("channelId");
+        mFileName = getActivity().getExternalCacheDir().getAbsolutePath();
+        mFileName += "/audiorecordtest.3gp";
+
+        ActivityCompat.requestPermissions(getActivity(), permissions, REQUEST_RECORD_AUDIO_PERMISSION);
+        // Use the Builder class for convenient dialog construction
+
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        View dialogView = inflater.inflate(R.layout.fragment_sound_record_dialog, null);
+        LinearLayout container = (LinearLayout) dialogView.findViewById(R.id.soundDialogContainer);
+        mRecordButton = new RecordButton(getActivity().getApplicationContext());
+        container.addView(mRecordButton,
+                new LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        0));
+
+        builder.setView(dialogView);
+
+        builder.setMessage("Enregister")
+                .setPositiveButton("Valider", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id)
+                    {
+                        List<NameValuePair> liste = new ArrayList<>();
+                        SharedPreferences settings = getActivity().getSharedPreferences(LoginActivity.PREFS_NAME, 0);
+
+
+                        liste.add(new BasicNameValuePair("accesstoken", settings.getString("accesstoken", "")));
+                        liste.add(new BasicNameValuePair("channelid",Integer.toString(channelId)));
+
+                        new UploadFileToServer(getActivity(), mFileName, liste, new UploadFileToServer.OnUploadFileListener() {
+                            @Override
+                            public void onResponse(String result)
+                            {
+
+                            }
+
+                            @Override
+                            public void onFailed(IOException error) {
+                                System.out.println(error);
+                            }
+                        }).execute();
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id)
+                    {
+                        // User cancelled the dialog
+                    }
+                });
+        // Create the AlertDialog object and return it
+        return builder.create();
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode){
+            case REQUEST_RECORD_AUDIO_PERMISSION:
+                permissionToRecordAccepted  = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                break;
+        }
+        if (!permissionToRecordAccepted ) getActivity().finish();
+
+    }
+
+    private void onRecord(boolean start) {
+        if (start) {
+            startRecording();
+        } else {
+            stopRecording();
+        }
+    }
+    private void startRecording() {
+        mRecorder = new MediaRecorder();
+        mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        mRecorder.setOutputFile(mFileName);
+        mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+
+        try {
+            mRecorder.prepare();
+        } catch (IOException e) {
+            Log.e(LOG_TAG, "prepare() failed");
+        }
+
+        mRecorder.start();
+    }
+
+    private void stopRecording() {
+        mRecorder.stop();
+        mRecorder.release();
+        mRecorder = null;
+    }
+    class RecordButton extends Button {
+        boolean mStartRecording = true;
+
+        OnClickListener clicker = new OnClickListener() {
+            public void onClick(View v) {
+                onRecord(mStartRecording);
+                if (mStartRecording) {
+                    setText("Stop recording");
+                } else {
+                    setText("Start recording");
+                }
+                mStartRecording = !mStartRecording;
+            }
+        };
+
+        public RecordButton(Context ctx) {
+            super(ctx);
+            setText("Start recording");
+            setOnClickListener(clicker);
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_sound_record_dialog, container, false);
-    }
+
+
+
+
+
+
 
 }

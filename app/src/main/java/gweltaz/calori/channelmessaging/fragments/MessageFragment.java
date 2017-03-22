@@ -1,6 +1,7 @@
 package gweltaz.calori.channelmessaging.fragments;
 
 
+
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,6 +17,7 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
@@ -27,6 +29,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.MapFragment;
 import com.google.gson.Gson;
 
 import org.apache.http.NameValuePair;
@@ -59,12 +62,21 @@ public class MessageFragment extends Fragment implements OnDownloadCompleteListe
 
     private Handler h;
     private int delay = 1000;
+
+    public int getChannelId() {
+        return channelId;
+    }
+
+
+
     private int channelId;
     private ListView mListview;
     private List<Message> messages = new ArrayList<>();
-    private FloatingActionButton send,sendphoto;
+    private FloatingActionButton send,sendphoto,soundbutton;
     EditText input;
     private final int PICTURE_REQUEST_CODE = 1;
+
+
     public MessageFragment() {
         // Required empty public constructor
     }
@@ -83,7 +95,7 @@ public class MessageFragment extends Fragment implements OnDownloadCompleteListe
 
         send = (FloatingActionButton) rootView.findViewById(R.id.viewfriendsbutton);
         input = (EditText) rootView.findViewById(R.id.messageinput);
-
+        soundbutton = (FloatingActionButton) rootView.findViewById(R.id.Soundbutton);
 
 
         return rootView;
@@ -192,8 +204,21 @@ public class MessageFragment extends Fragment implements OnDownloadCompleteListe
                 startActivityForResult(intent, PICTURE_REQUEST_CODE);
             }
         });
+        soundbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialog();
+            }
+        });
     }
+    public void showDialog() {
+        Bundle bundle = new Bundle();
+        bundle.putInt("channelId", channelId);
+        DialogFragment soundFragment = new SoundRecordDialog();
+        soundFragment.setArguments(bundle);
+        soundFragment.show(getFragmentManager(),"");
 
+    }
     @Override
     public void onDownloadComplete(String content) {
 
@@ -203,16 +228,21 @@ public class MessageFragment extends Fragment implements OnDownloadCompleteListe
         Collections.reverse(container.getMessages());
         if(!messages.equals(container.getMessages()))
         {
-            final MessageListAdapter myListAdapter =new MessageListAdapter(getActivity().getApplicationContext(), container.getMessages());
-            mListview.setAdapter(myListAdapter);
-            mListview.post(new Runnable() {
-                @Override
-                public void run() {
-                    // Select the last row so it will scroll into view...
-                    mListview.setSelection(myListAdapter.getCount() - 1);
-                }
-            });
-            messages = container.getMessages();
+            if(getActivity() !=null)
+            {
+                System.out.println(container.getMessages());
+                final MessageListAdapter myListAdapter =new MessageListAdapter(getActivity().getApplicationContext(), container.getMessages());
+                mListview.setAdapter(myListAdapter);
+                mListview.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        // Select the last row so it will scroll into view...
+                        mListview.setSelection(myListAdapter.getCount() - 1);
+                    }
+                });
+                messages = container.getMessages();
+            }
+
 
         }
 

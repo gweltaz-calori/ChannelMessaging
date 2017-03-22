@@ -14,6 +14,15 @@ public class Message
     private String imageUrl;
     private String username;
     private String messageImageUrl;
+    private String soundUrl;
+
+    public String getSoundUrl() {
+        return soundUrl;
+    }
+
+    public void setSoundUrl(String soundUrl) {
+        this.soundUrl = soundUrl;
+    }
 
     public String getMessageImageUrl() {
         return messageImageUrl;
@@ -63,13 +72,14 @@ public class Message
         this.imageUrl = imageUrl;
     }
 
-    public Message(int userID, String message, String date, String imageUrl,String username,String messageImageUrl) {
+    public Message(int userID, String message, String date, String imageUrl,String username,String messageImageUrl,String soundUrl) {
         this.userID = userID;
         this.message = message;
         this.date = date;
         this.imageUrl = imageUrl;
         this.username = username;
         this.messageImageUrl = messageImageUrl;
+        this.soundUrl =soundUrl;
     }
 
     public Message() {
@@ -84,6 +94,7 @@ public class Message
                 ", imageUrl='" + imageUrl + '\'' +
                 ", username='" + username + '\'' +
                 ", messageimageurl='" + messageImageUrl + '\'' +
+                ", soundUrl='" + soundUrl + '\'' +
                 '}';
     }
 

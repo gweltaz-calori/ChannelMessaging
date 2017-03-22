@@ -22,5 +22,6 @@
     <color name="black">#000000</color>
     <color name="backgroundcolor">#303030</color>
     <color name="buttonMainColor">#01bfa5</color>
+    <color name="colorSelection">#E0E0E0</color>
 
 </resources>
