@@ -1,9 +1,7 @@
 package gweltaz.calori.channelmessaging.fragments;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -11,23 +9,20 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
 
 import java.util.HashMap;
 
-import gweltaz.calori.channelmessaging.Channel;
-import gweltaz.calori.channelmessaging.ChannelContainer;
-import gweltaz.calori.channelmessaging.ChannelListActivity;
-import gweltaz.calori.channelmessaging.Downloader;
-import gweltaz.calori.channelmessaging.ListAdapter;
-import gweltaz.calori.channelmessaging.ListFriendsActivity;
-import gweltaz.calori.channelmessaging.LoginActivity;
-import gweltaz.calori.channelmessaging.OnDownloadCompleteListener;
+import gweltaz.calori.channelmessaging.model.ChannelContainer;
+import gweltaz.calori.channelmessaging.activity.ChannelListActivity;
+import gweltaz.calori.channelmessaging.tasks.Downloader;
+import gweltaz.calori.channelmessaging.adapter.ListAdapter;
+import gweltaz.calori.channelmessaging.activity.ListFriendsActivity;
+import gweltaz.calori.channelmessaging.activity.LoginActivity;
+import gweltaz.calori.channelmessaging.interfaces.OnDownloadCompleteListener;
 import gweltaz.calori.channelmessaging.R;
-import gweltaz.calori.channelmessaging.activity.ChannelActivity;
 
 
 public class ChannelListFragment extends Fragment implements OnDownloadCompleteListener {

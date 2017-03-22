@@ -1,4 +1,4 @@
-package gweltaz.calori.channelmessaging;
+package gweltaz.calori.channelmessaging.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -14,6 +14,9 @@ import java.io.File;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import gweltaz.calori.channelmessaging.R;
+import gweltaz.calori.channelmessaging.model.Friends;
+import gweltaz.calori.channelmessaging.tasks.DownloadImageTask;
 
 /**
  * Created by calorig on 27/01/2017.

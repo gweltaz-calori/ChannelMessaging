@@ -1,4 +1,4 @@
-package gweltaz.calori.channelmessaging;
+package gweltaz.calori.channelmessaging.activity;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +8,11 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 
 import java.util.List;
+
+import gweltaz.calori.channelmessaging.R;
+import gweltaz.calori.channelmessaging.dbhelper.UserDatasource;
+import gweltaz.calori.channelmessaging.adapter.FriendGridAdapter;
+import gweltaz.calori.channelmessaging.model.Friends;
 
 public class ListFriendsActivity extends AppCompatActivity {
 

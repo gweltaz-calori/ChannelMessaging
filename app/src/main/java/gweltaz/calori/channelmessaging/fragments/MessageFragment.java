@@ -29,7 +29,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.MapFragment;
 import com.google.gson.Gson;
 
 import org.apache.http.NameValuePair;
@@ -44,16 +43,16 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-import gweltaz.calori.channelmessaging.Downloader;
-import gweltaz.calori.channelmessaging.Friends;
-import gweltaz.calori.channelmessaging.LoginActivity;
-import gweltaz.calori.channelmessaging.Message;
-import gweltaz.calori.channelmessaging.MessageListAdapter;
-import gweltaz.calori.channelmessaging.Messages;
-import gweltaz.calori.channelmessaging.OnDownloadCompleteListener;
+import gweltaz.calori.channelmessaging.tasks.Downloader;
+import gweltaz.calori.channelmessaging.model.Friends;
+import gweltaz.calori.channelmessaging.activity.LoginActivity;
+import gweltaz.calori.channelmessaging.model.Message;
+import gweltaz.calori.channelmessaging.adapter.MessageListAdapter;
+import gweltaz.calori.channelmessaging.model.Messages;
+import gweltaz.calori.channelmessaging.interfaces.OnDownloadCompleteListener;
 import gweltaz.calori.channelmessaging.R;
-import gweltaz.calori.channelmessaging.UploadFileToServer;
-import gweltaz.calori.channelmessaging.UserDatasource;
+import gweltaz.calori.channelmessaging.tasks.UploadFileToServer;
+import gweltaz.calori.channelmessaging.dbhelper.UserDatasource;
 
 /**
  * A simple {@link Fragment} subclass.

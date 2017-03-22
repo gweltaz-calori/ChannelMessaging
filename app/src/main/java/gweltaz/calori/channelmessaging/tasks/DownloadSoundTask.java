@@ -1,10 +1,7 @@
-package gweltaz.calori.channelmessaging;
+package gweltaz.calori.channelmessaging.tasks;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Environment;
-import android.widget.ImageView;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -15,7 +12,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 
-import de.hdodenhof.circleimageview.CircleImageView;
+import gweltaz.calori.channelmessaging.interfaces.OnDownloadCompleteListener;
 
 /**
  * Created by calorig on 15/03/2017.

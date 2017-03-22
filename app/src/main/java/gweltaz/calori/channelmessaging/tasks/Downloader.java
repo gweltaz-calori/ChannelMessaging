@@ -1,4 +1,4 @@
-package gweltaz.calori.channelmessaging;
+package gweltaz.calori.channelmessaging.tasks;
 
 import android.os.AsyncTask;
 
@@ -16,6 +16,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
+
+import gweltaz.calori.channelmessaging.interfaces.OnDownloadCompleteListener;
 
 /**
  * Created by calorig on 20/01/2017.

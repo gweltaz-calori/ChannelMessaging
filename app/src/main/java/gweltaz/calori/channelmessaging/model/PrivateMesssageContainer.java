@@ -1,7 +1,9 @@
-package gweltaz.calori.channelmessaging;
+package gweltaz.calori.channelmessaging.model;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import gweltaz.calori.channelmessaging.model.PrivateMessage;
 
 /**
  * Created by calorig on 27/01/2017.

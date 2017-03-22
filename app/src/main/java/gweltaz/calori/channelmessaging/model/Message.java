@@ -1,6 +1,4 @@
-package gweltaz.calori.channelmessaging;
-
-import java.util.Date;
+package gweltaz.calori.channelmessaging.model;
 
 /**
  * Created by gwel7_000 on 21/01/2017.

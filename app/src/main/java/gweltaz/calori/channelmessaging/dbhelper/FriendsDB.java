@@ -1,4 +1,4 @@
-package gweltaz.calori.channelmessaging;
+package gweltaz.calori.channelmessaging.dbhelper;
 
 import android.content.ContentValues;
 import android.content.Context;

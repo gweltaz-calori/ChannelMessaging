@@ -1,4 +1,4 @@
-package gweltaz.calori.channelmessaging;
+package gweltaz.calori.channelmessaging.interfaces;
 
 /**
  * Created by calorig on 20/01/2017.

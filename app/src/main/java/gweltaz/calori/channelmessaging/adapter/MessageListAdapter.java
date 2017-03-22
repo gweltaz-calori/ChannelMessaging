@@ -1,4 +1,4 @@
-package gweltaz.calori.channelmessaging;
+package gweltaz.calori.channelmessaging.adapter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.os.Environment;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,20 +16,19 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import gweltaz.calori.channelmessaging.interfaces.OnDownloadCompleteListener;
+import gweltaz.calori.channelmessaging.R;
+import gweltaz.calori.channelmessaging.model.Message;
+import gweltaz.calori.channelmessaging.tasks.DownloadImageTask;
+import gweltaz.calori.channelmessaging.tasks.DownloadSoundTask;
 
 /**
  * Created by gwel7_000 on 21/01/2017.

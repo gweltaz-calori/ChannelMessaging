@@ -1,4 +1,4 @@
-package gweltaz.calori.channelmessaging;
+package gweltaz.calori.channelmessaging.dbhelper;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -9,7 +9,9 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
+
+import gweltaz.calori.channelmessaging.dbhelper.FriendsDB;
+import gweltaz.calori.channelmessaging.model.Friends;
 
 /**
  * Created by calorig on 23/01/2017.
@@ -29,7 +31,7 @@ public class UserDatasource
     public void close() {
         dbHelper.close();
     }
-    public Friends createFriend(String url,int id,String username)
+    public Friends createFriend(String url, int id, String username)
     {
 
         ContentValues values = new ContentValues();

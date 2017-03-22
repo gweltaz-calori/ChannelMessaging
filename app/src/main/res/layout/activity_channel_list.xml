@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
 
-    tools:context="gweltaz.calori.channelmessaging.ChannelListActivity">
+    tools:context=".activity.ChannelListActivity">
 
    <fragment
        class="gweltaz.calori.channelmessaging.fragments.ChannelListFragment"

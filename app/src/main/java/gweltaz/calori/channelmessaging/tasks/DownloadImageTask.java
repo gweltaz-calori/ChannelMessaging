@@ -1,4 +1,4 @@
-package gweltaz.calori.channelmessaging;
+package gweltaz.calori.channelmessaging.tasks;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

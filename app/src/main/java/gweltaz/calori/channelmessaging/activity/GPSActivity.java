@@ -1,7 +1,6 @@
-package gweltaz.calori.channelmessaging;
+package gweltaz.calori.channelmessaging.activity;
 
 
-import android.*;
 import android.Manifest;
 import android.content.pm.PackageManager;
 
@@ -12,7 +11,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -29,7 +27,7 @@ public class GPSActivity extends ActionBarActivity implements LocationListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gps);
+        setContentView(gweltaz.calori.channelmessaging.R.layout.activity_gps);
         askPermission();
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(LocationServices.API)

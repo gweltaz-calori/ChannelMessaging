@@ -9,34 +9,28 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import gweltaz.calori.channelmessaging.LoginActivity;
+import gweltaz.calori.channelmessaging.activity.LoginActivity;
 import gweltaz.calori.channelmessaging.R;
-import gweltaz.calori.channelmessaging.UploadFileToServer;
+import gweltaz.calori.channelmessaging.tasks.UploadFileToServer;
 
 
 public class SoundRecordDialog extends DialogFragment {
