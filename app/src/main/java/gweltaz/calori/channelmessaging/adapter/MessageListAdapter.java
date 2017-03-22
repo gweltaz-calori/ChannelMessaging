@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.OvalShape;
 import android.media.MediaPlayer;
 import android.os.Environment;
 import android.util.Log;
@@ -92,13 +94,17 @@ public class MessageListAdapter extends ArrayAdapter<Message>
                 File fileSound = new File(pathSound);
                 //mFileName = fileSound.getAbsolutePath();
                 LinearLayout audioLinear = (LinearLayout) convertView.findViewById(R.id.linearAudioContainer);
+                audioLinear.setOrientation(LinearLayout.VERTICAL);
+
 
                 PlayButton mPlayButton = new PlayButton(getContext(),fileSound,message.getSoundUrl());
+
                 audioLinear.addView(mPlayButton,
                         new LinearLayout.LayoutParams(
                                 ViewGroup.LayoutParams.WRAP_CONTENT,
                                 ViewGroup.LayoutParams.WRAP_CONTENT,
                                 0));
+
 
             }
 
@@ -175,6 +181,7 @@ public class MessageListAdapter extends ArrayAdapter<Message>
         boolean mStartPlaying = true;
         File fileSound;
         String soundUrl;
+
         OnClickListener clicker = new OnClickListener() {
             public void onClick(View v)
             {
@@ -219,30 +226,9 @@ public class MessageListAdapter extends ArrayAdapter<Message>
 
                 }
             });
-            final SeekBar mSeelBar = new SeekBar(getContext());
-            System.out.println(mSeelBar);
-            final int duration = mPlayer.getDuration();
-            final int amoungToupdate = duration / 100;
-            Timer mTimer = new Timer();
-            mTimer.schedule(new TimerTask()
-            {
 
-                @Override
-                public void run() {
 
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (!(amoungToupdate * mSeelBar.getProgress() >= duration)) {
-                                int p = mSeelBar.getProgress();
-                                p += 1;
-                                mSeelBar.setProgress(p);
-                            }
 
-                        }
-                    }).start();
-                };
-            }, amoungToupdate);
             mStartPlaying = !mStartPlaying;
         }
         public PlayButton(Context ctx,File fileSound,String soundUrl)
@@ -250,6 +236,7 @@ public class MessageListAdapter extends ArrayAdapter<Message>
             super(ctx);
             this.fileSound = fileSound;
             this.soundUrl = soundUrl;
+
             setText("Start playing");
             setOnClickListener(clicker);
         }
