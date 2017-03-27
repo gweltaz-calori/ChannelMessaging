@@ -141,45 +141,47 @@ public class LoginActivity extends AppCompatActivity implements OnDownloadComple
     @Override
     public void onDownloadComplete(String content) {
 
-
-        buttonvalider.setVisibility(View.VISIBLE);
-        avi.hide();
-        Gson gson = new Gson();
-        final Connect connect = gson.fromJson(content, Connect.class);
-        System.out.println(connect.getResponse());
-        if(connect.getResponse().equals("Ok"))
+        try
         {
+            buttonvalider.setVisibility(View.VISIBLE);
+            avi.hide();
+            Gson gson = new Gson();
+            final Connect connect = gson.fromJson(content, Connect.class);
+            System.out.println(connect.getResponse());
+            if(connect.getResponse().equals("Ok"))
+            {
 
-            Animation animSlideLeft = AnimationUtils.loadAnimation(this, R.anim.slide_left);
-            messageLoginToMove.startAnimation(animSlideLeft);
-            new Handler().postDelayed(new Runnable(){
-                public void run(){
-                    SharedPreferences settings =
-                            getSharedPreferences(PREFS_NAME, 0);
-                    SharedPreferences.Editor editor = settings.edit();
-                    editor.putString("accesstoken", connect.getAccesstoken());
-                    editor.putString("username", identifiant.getText().toString());
-                    editor.commit();
-                    Toast.makeText(getApplicationContext(),"Connecté",Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(getApplicationContext(),ChannelListActivity.class);
-                    startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(LoginActivity.this, Pair.create((View)mIvLogo, "logo"),Pair.create((View)messageLogin, "messagetransition")).toBundle());
-                    new Handler().postDelayed(new Runnable(){
-                        public void run(){
-                            messageLoginToMove.clearAnimation();
-                        }
-                    }, 500);
+                Animation animSlideLeft = AnimationUtils.loadAnimation(this, R.anim.slide_left);
+                messageLoginToMove.startAnimation(animSlideLeft);
+                new Handler().postDelayed(new Runnable(){
+                    public void run(){
+                        SharedPreferences settings =
+                                getSharedPreferences(PREFS_NAME, 0);
+                        SharedPreferences.Editor editor = settings.edit();
+                        editor.putString("accesstoken", connect.getAccesstoken());
+                        editor.putString("username", identifiant.getText().toString());
+                        editor.commit();
+                        Toast.makeText(getApplicationContext(),"Connecté",Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getApplicationContext(),ChannelListActivity.class);
+                        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(LoginActivity.this, Pair.create((View)mIvLogo, "logo"),Pair.create((View)messageLogin, "messagetransition")).toBundle());
+                        new Handler().postDelayed(new Runnable(){
+                            public void run(){
+                                messageLoginToMove.clearAnimation();
+                            }
+                        }, 500);
 
-                }
-            }, 500);
-
-
+                    }
+                }, 500);
 
 
-        }
-        else
+
+
+            }
+
+        }catch (Exception e)
         {
             Snackbar mySnackbar = Snackbar.make(findViewById(R.id.loginMainLayout),
-                    "Identifiants incorrects", Snackbar.LENGTH_SHORT);
+                    "Aucune connexion", Snackbar.LENGTH_SHORT);
             mySnackbar.setAction("Réssayer", new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -187,8 +189,9 @@ public class LoginActivity extends AppCompatActivity implements OnDownloadComple
                 }
             });
             mySnackbar.show();
-            //Toast.makeText(getApplicationContext(),"Identifiants incorrects",Toast.LENGTH_SHORT).show();
+
         }
+
 
     }
 

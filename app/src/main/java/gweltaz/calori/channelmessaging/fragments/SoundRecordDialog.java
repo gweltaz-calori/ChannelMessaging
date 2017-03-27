@@ -12,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
@@ -41,7 +42,7 @@ public class SoundRecordDialog extends DialogFragment {
 
     private RecordButton mRecordButton = null;
     private MediaRecorder mRecorder = null;
-
+    private View dialogView;
 
     // Requesting permission to RECORD_AUDIO
     private boolean permissionToRecordAccepted = false;
@@ -69,7 +70,7 @@ public class SoundRecordDialog extends DialogFragment {
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        View dialogView = inflater.inflate(R.layout.fragment_sound_record_dialog, null);
+        dialogView = inflater.inflate(R.layout.fragment_sound_record_dialog, null);
         LinearLayout container = (LinearLayout) dialogView.findViewById(R.id.soundDialogContainer);
         mRecordButton = new RecordButton(getActivity().getApplicationContext());
         container.addView(mRecordButton,
@@ -101,6 +102,9 @@ public class SoundRecordDialog extends DialogFragment {
                             @Override
                             public void onFailed(IOException error) {
                                 System.out.println(error);
+                                Snackbar mySnackbar = Snackbar.make(dialogView,
+                                        "L'upload du son a échoué", Snackbar.LENGTH_SHORT);
+                                mySnackbar.show();
                             }
                         }).execute();
                     }

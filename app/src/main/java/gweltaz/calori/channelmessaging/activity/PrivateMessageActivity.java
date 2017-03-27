@@ -3,6 +3,7 @@ package gweltaz.calori.channelmessaging.activity;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -82,25 +83,33 @@ public class PrivateMessageActivity extends AppCompatActivity implements OnDownl
 
     @Override
     public void onDownloadComplete(String content) {
-
-        Gson gson = new Gson();
-        PrivateMesssageContainer container = gson.fromJson(content, PrivateMesssageContainer.class);
-
-        Collections.reverse(container.getMessages());
-        if(!messages.equals(container.getMessages()))
+        try
         {
-            final PrivateMessageListAdapter myListAdapter =new PrivateMessageListAdapter(getApplicationContext(), container.getMessages());
-            mListview.setAdapter(myListAdapter);
-            mListview.post(new Runnable() {
-                @Override
-                public void run() {
-                    // Select the last row so it will scroll into view...
-                    mListview.setSelection(myListAdapter.getCount() - 1);
-                }
-            });
-            messages = container.getMessages();
+            Gson gson = new Gson();
+            PrivateMesssageContainer container = gson.fromJson(content, PrivateMesssageContainer.class);
 
+            Collections.reverse(container.getMessages());
+            if(!messages.equals(container.getMessages()))
+            {
+                final PrivateMessageListAdapter myListAdapter =new PrivateMessageListAdapter(getApplicationContext(), container.getMessages());
+                mListview.setAdapter(myListAdapter);
+                mListview.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        // Select the last row so it will scroll into view...
+                        mListview.setSelection(myListAdapter.getCount() - 1);
+                    }
+                });
+                messages = container.getMessages();
+
+            }
+        }catch (Exception e)
+        {
+            Snackbar mySnackbar = Snackbar.make(findViewById(R.id.private_activity_message),
+                    "Aucune connexion", Snackbar.LENGTH_SHORT);
+            mySnackbar.show();
         }
+
     }
 
 

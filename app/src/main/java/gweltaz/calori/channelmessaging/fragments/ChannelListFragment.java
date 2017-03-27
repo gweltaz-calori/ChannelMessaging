@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -82,10 +83,18 @@ public class ChannelListFragment extends Fragment implements OnDownloadCompleteL
     @Override
     public void onDownloadComplete(String content)
     {
-        Gson gson = new Gson();
-        ChannelContainer container = gson.fromJson(content, ChannelContainer.class);
+        try{
+            Gson gson = new Gson();
+            ChannelContainer container = gson.fromJson(content, ChannelContainer.class);
 
-        mListview.setAdapter(new ListAdapter(getActivity().getApplicationContext(),container.getChannels()));
+            mListview.setAdapter(new ListAdapter(getActivity().getApplicationContext(),container.getChannels()));
+        }catch (Exception e)
+        {
+            Snackbar mySnackbar = Snackbar.make(getView().findViewById(R.id.loginMainLayout),
+                    "Aucune connexion", Snackbar.LENGTH_SHORT);
+            mySnackbar.show();
+        }
+
 
 
     }

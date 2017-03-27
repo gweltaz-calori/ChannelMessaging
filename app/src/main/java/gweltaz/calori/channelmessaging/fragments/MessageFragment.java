@@ -17,6 +17,7 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
@@ -74,7 +75,7 @@ public class MessageFragment extends Fragment implements OnDownloadCompleteListe
     private FloatingActionButton send,sendphoto,soundbutton;
     EditText input;
     private final int PICTURE_REQUEST_CODE = 1;
-
+    private View mView;
 
     public MessageFragment() {
         // Required empty public constructor
@@ -95,7 +96,7 @@ public class MessageFragment extends Fragment implements OnDownloadCompleteListe
         send = (FloatingActionButton) rootView.findViewById(R.id.viewfriendsbutton);
         input = (EditText) rootView.findViewById(R.id.messageinput);
         soundbutton = (FloatingActionButton) rootView.findViewById(R.id.Soundbutton);
-
+        this.mView = rootView;
 
         return rootView;
     }
@@ -221,29 +222,39 @@ public class MessageFragment extends Fragment implements OnDownloadCompleteListe
     @Override
     public void onDownloadComplete(String content) {
 
-        Gson gson = new Gson();
-        Messages container = gson.fromJson(content, Messages.class);
-
-        Collections.reverse(container.getMessages());
-        if(!messages.equals(container.getMessages()))
+        try
         {
-            if(getActivity() !=null)
+            Gson gson = new Gson();
+            Messages container = gson.fromJson(content, Messages.class);
+
+            Collections.reverse(container.getMessages());
+            if(!messages.equals(container.getMessages()))
             {
-                System.out.println(container.getMessages());
-                final MessageListAdapter myListAdapter =new MessageListAdapter(getActivity().getApplicationContext(), container.getMessages());
-                mListview.setAdapter(myListAdapter);
-                mListview.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        // Select the last row so it will scroll into view...
-                        mListview.setSelection(myListAdapter.getCount() - 1);
-                    }
-                });
-                messages = container.getMessages();
+                if(getActivity() !=null)
+                {
+                    System.out.println(container.getMessages());
+                    final MessageListAdapter myListAdapter =new MessageListAdapter(getActivity().getApplicationContext(), container.getMessages());
+                    mListview.setAdapter(myListAdapter);
+                    mListview.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            // Select the last row so it will scroll into view...
+                            mListview.setSelection(myListAdapter.getCount() - 1);
+                        }
+                    });
+                    messages = container.getMessages();
+                }
+
+
             }
+        }catch (Exception e)
+        {
 
-
+            Snackbar mySnackbar = Snackbar.make(mView,
+                    "Aucune connexion", Snackbar.LENGTH_SHORT);
+            mySnackbar.show();
         }
+
 
 
 
@@ -279,6 +290,9 @@ public class MessageFragment extends Fragment implements OnDownloadCompleteListe
                     @Override
                     public void onFailed(IOException error) {
                         System.out.println(error);
+                        Snackbar mySnackbar = Snackbar.make(mView,
+                                "L'upload de la photo a échoué", Snackbar.LENGTH_SHORT);
+                        mySnackbar.show();
                     }
                 }).execute();
 
